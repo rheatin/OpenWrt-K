@@ -8,7 +8,7 @@ has_package() {
   fi
 }
 
-uci set network.lan.ipaddr="192.168.1.1"
+uci set network.lan.ipaddr="192.168.1.5"
 uci commit network
 /etc/init.d/network restart
 sed -i "/^DISTRIB_DESCRIPTION='/s/'$/ Compiled by 沉默の金'/" /etc/openwrt_release

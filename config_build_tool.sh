@@ -250,7 +250,7 @@ function input_parameters() {
     if [ "$(grep -c "^ipaddr=" $TMPDIR/openwrtext.config)" -eq '1' ];then
         ipaddr=$(grep "^ipaddr=" $TMPDIR/openwrtext.config|sed -e "s/ipaddr=//")
     else
-        ipaddr="192.168.1.1"
+        ipaddr="192.168.1.5"
     fi
     if [ "$(grep -c "^timezone=" $TMPDIR/openwrtext.config)" -eq '1' ];then
         timezone=$(grep "^timezone=" $TMPDIR/openwrtext.config|sed -e "s/timezone=//")
@@ -1237,7 +1237,7 @@ openwrt_extension_config() {
             return 6
             ;;
         7)
-            sed -i "/^ipaddr/s/=.*/=192.168.1.1/g" buildconfig.config
+            sed -i "/^ipaddr/s/=.*/=192.168.1.5/g" buildconfig.config
             sed -i "/^timezone=/s/=.*/=CST-8/g" buildconfig.config
             sed -i "/^zonename=/s#=.*#=Asia/Shanghai#g" buildconfig.config
             sed -i  "/^kmod_compile_exclude_list=/s/=.*/=kmod-shortcut-fe-cm,kmod-shortcut-fe,kmod-fast-classifier/g" buildconfig.config
