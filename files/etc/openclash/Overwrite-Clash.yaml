@@ -1,0 +1,1109 @@
+---
+proxy-providers:
+  provider:
+    type: http
+    url: url
+    path: "./proxy_provider/provider.yaml"
+    proxy: DIRECT
+    header:
+      User-Agent:
+      - clash.meta
+    health-check:
+      enable: true
+      interval: 600
+      url: https://cp.cloudflare.com/generate_204
+    override:
+      skip-cert-verify: true
+      udp: true
+proxy-groups:
+- name: "\U0001F680 手动选择"
+  type: select
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  proxies:
+  - "♻️ 自动选择"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "♻️ 自动选择"
+  type: smart
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  tolerance: 50
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  use:
+  - provider
+  uselightgbm: true
+  collectdata: true
+  sample-rate: 1.0
+  policy-priority: 'Premium: 0.9;HK: 1.5;SG: 1.3;TW: 1.4;'
+- name: "\U0001F4AC 即时通讯"
+  type: select
+  proxies:
+  - "♻️ 自动选择"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "\U0001F3AF 全球直连"
+- name: "\U0001F310 社交媒体"
+  type: select
+  proxies:
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F680 GitHub"
+  type: select
+  proxies:
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+- name: "\U0001F916 ChatGPT"
+  type: select
+  proxies:
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F916 Copilot"
+  type: select
+  proxies:
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F916 AI服务"
+  type: select
+  proxies:
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F3B6 TikTok"
+  type: select
+  proxies:
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F4F9 YouTube"
+  type: select
+  proxies:
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F3A5 Netflix"
+  type: select
+  proxies:
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F3A5 DisneyPlus"
+  type: select
+  proxies:
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F3A5 HBO"
+  type: select
+  proxies:
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F3A5 PrimeVideo"
+  type: select
+  proxies:
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F3A5 AppleTV+"
+  type: select
+  proxies:
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F3A5 Emby"
+  type: select
+  proxies:
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F3BB Spotify"
+  type: select
+  proxies:
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F4FA Bahamut"
+  type: select
+  proxies:
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+- name: "\U0001F30E 国外媒体"
+  type: select
+  proxies:
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F6D2 国外电商"
+  type: select
+  proxies:
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F4E2 谷歌FCM"
+  type: select
+  proxies:
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+- name: "\U0001F1EC 谷歌服务"
+  type: select
+  proxies:
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+- name: "\U0001F34E 苹果服务"
+  type: select
+  proxies:
+  - "\U0001F3AF 全球直连"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+- name: Ⓜ️ 微软服务
+  type: select
+  proxies:
+  - "\U0001F3AF 全球直连"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+- name: "\U0001F3AE 游戏平台"
+  type: select
+  proxies:
+  - "\U0001F3AF 全球直连"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+- name: "\U0001F3AE Steam"
+  type: select
+  proxies:
+  - "\U0001F3AF 全球直连"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F680 测速工具"
+  type: select
+  proxies:
+  - "\U0001F3AF 全球直连"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F41F 漏网之鱼"
+  type: select
+  proxies:
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1FA\U0001F1F8 美国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F8\U0001F1EC 新加坡节点"
+  - "\U0001F1FC\U0001F1F8 台湾节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1E8\U0001F1E6 加拿大节点"
+  - "\U0001F1EC\U0001F1E7 英国节点"
+  - "\U0001F1EB\U0001F1F7 法国节点"
+  - "\U0001F1E9\U0001F1EA 德国节点"
+  - "\U0001F1F3\U0001F1F1 荷兰节点"
+  - "\U0001F1F9\U0001F1F7 土耳其节点"
+  - "\U0001F310 其他地区"
+  - "\U0001F680 手动选择"
+  - "♻️ 自动选择"
+  - "\U0001F3AF 全球直连"
+  filter: "^(?!.*(DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB|Expire)).*$"
+  use:
+  - provider
+- name: "\U0001F500 非标端口"
+  type: select
+  proxies:
+  - "\U0001F41F 遵循规则"
+  - "\U0001F3AF 全球直连"
+- name: "\U0001F1ED\U0001F1F0 香港节点"
+  type: smart
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(港|HK|Hong Kong|HongKong|深港|\U0001F1ED\U0001F1F0)"
+  use:
+  - provider
+  interval: 300
+  tolerance: 50
+  uselightgbm: true
+  collectdata: true
+  sample-rate: 1.0
+  policy-priority: 'Premium: 0.9;HK: 1.5;SG: 1.3;TW: 1.4;'
+- name: "\U0001F1FA\U0001F1F8 美国节点"
+  type: smart
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States|UnitedStates|\U0001F1FA\U0001F1F8)"
+  use:
+  - provider
+  interval: 300
+  tolerance: 50
+  uselightgbm: true
+  collectdata: true
+  sample-rate: 1.0
+  policy-priority: 'Premium: 0.9;HK: 1.5;SG: 1.3;TW: 1.4;'
+- name: "\U0001F1EF\U0001F1F5 日本节点"
+  type: smart
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(日本|川日|东京|大阪|泉日|埼玉|沪日|深日|(?<!尼|-)日|JP|Japan|\U0001F1EF\U0001F1F5)"
+  use:
+  - provider
+  interval: 300
+  tolerance: 50
+  uselightgbm: true
+  collectdata: true
+  sample-rate: 1.0
+  policy-priority: 'Premium: 0.9;HK: 1.5;SG: 1.3;TW: 1.4;'
+- name: "\U0001F1F8\U0001F1EC 新加坡节点"
+  type: smart
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(新加坡|坡|狮城|SG|Singapore|\U0001F1F8\U0001F1EC)"
+  use:
+  - provider
+  interval: 300
+  tolerance: 50
+  uselightgbm: true
+  collectdata: true
+  sample-rate: 1.0
+  policy-priority: 'Premium: 0.9;HK: 1.5;SG: 1.3;TW: 1.4;'
+- name: "\U0001F1FC\U0001F1F8 台湾节点"
+  type: smart
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(台|新北|彰化|TW|Taiwan|\U0001F1F9\U0001F1FC)"
+  use:
+  - provider
+  interval: 300
+  tolerance: 50
+  uselightgbm: true
+  collectdata: true
+  sample-rate: 1.0
+  policy-priority: 'Premium: 0.9;HK: 1.5;SG: 1.3;TW: 1.4;'
+- name: "\U0001F1F0\U0001F1F7 韩国节点"
+  type: smart
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(KR|Korea|KOR|首尔|韩|韓|\U0001F1F0\U0001F1F7)"
+  use:
+  - provider
+  interval: 300
+  tolerance: 50
+  uselightgbm: true
+  collectdata: true
+  sample-rate: 1.0
+  policy-priority: 'Premium: 0.9;HK: 1.5;SG: 1.3;TW: 1.4;'
+- name: "\U0001F1E8\U0001F1E6 加拿大节点"
+  type: smart
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(加拿大|Canada|渥太华|温哥华|卡尔加里|\U0001F1E8\U0001F1E6)"
+  use:
+  - provider
+  interval: 300
+  tolerance: 50
+  uselightgbm: true
+  collectdata: true
+  sample-rate: 1.0
+  policy-priority: 'Premium: 0.9;HK: 1.5;SG: 1.3;TW: 1.4;'
+- name: "\U0001F1EC\U0001F1E7 英国节点"
+  type: smart
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(英国|Britain|United Kingdom|England|伦敦|\U0001F1EC\U0001F1E7)"
+  use:
+  - provider
+  interval: 300
+  tolerance: 50
+  uselightgbm: true
+  collectdata: true
+  sample-rate: 1.0
+  policy-priority: 'Premium: 0.9;HK: 1.5;SG: 1.3;TW: 1.4;'
+- name: "\U0001F1EB\U0001F1F7 法国节点"
+  type: smart
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(法国|France|巴黎|\U0001F1EB\U0001F1F7)"
+  use:
+  - provider
+  interval: 300
+  tolerance: 50
+  uselightgbm: true
+  collectdata: true
+  sample-rate: 1.0
+  policy-priority: 'Premium: 0.9;HK: 1.5;SG: 1.3;TW: 1.4;'
+- name: "\U0001F1E9\U0001F1EA 德国节点"
+  type: smart
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(德国|Germany|柏林|法兰克福|\U0001F1E9\U0001F1EA)"
+  use:
+  - provider
+  interval: 300
+  tolerance: 50
+  uselightgbm: true
+  collectdata: true
+  sample-rate: 1.0
+  policy-priority: 'Premium: 0.9;HK: 1.5;SG: 1.3;TW: 1.4;'
+- name: "\U0001F1F3\U0001F1F1 荷兰节点"
+  type: smart
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(荷兰|Netherlands|阿姆斯特丹|\U0001F1F3\U0001F1F1)"
+  use:
+  - provider
+  interval: 300
+  tolerance: 50
+  uselightgbm: true
+  collectdata: true
+  sample-rate: 1.0
+  policy-priority: 'Premium: 0.9;HK: 1.5;SG: 1.3;TW: 1.4;'
+- name: "\U0001F1F9\U0001F1F7 土耳其节点"
+  type: smart
+  url: https://www.gstatic.com/generate_204
+  filter: "(?i)(土耳其|Turkey|Türkiye|\U0001F1F9\U0001F1F7)"
+  use:
+  - provider
+  interval: 300
+  tolerance: 50
+  uselightgbm: true
+  collectdata: true
+  sample-rate: 1.0
+  policy-priority: 'Premium: 0.9;HK: 1.5;SG: 1.3;TW: 1.4;'
+- name: "\U0001F310 其他地区"
+  type: smart
+  url: https://www.gstatic.com/generate_204
+  filter: "^(?!.*(港|HK|hk|Hong Kong|HongKong|hongkong|深港|美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United
+    States|UnitedStates|日本|川日|东京|大阪|泉日|埼玉|沪日|深日|(?<!尼|-)日|JP|Japan|\U0001F1EF\U0001F1F5|新加坡|坡|狮城|SG|Singapore|台|新北|彰化|TW|Taiwan|KR|Korea|KOR|首尔|韩|韓|加拿大|Canada|渥太华|温哥华|卡尔加里|英国|Britain|United
+    Kingdom|England|伦敦|法国|France|巴黎|德国|Germany|柏林|法兰克福|荷兰|Netherlands|阿姆斯特丹|土耳其|Turkey|Türkiye|DIRECT|直接连接|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic|GB)).*$"
+  use:
+  - provider
+  interval: 300
+  tolerance: 50
+  uselightgbm: true
+  collectdata: true
+  sample-rate: 1.0
+  policy-priority: 'Premium: 0.9;HK: 1.5;SG: 1.3;TW: 1.4;'
+- name: "\U0001F3AF 全球直连"
+  type: select
+  url: https://www.gstatic.com/generate_204
+  proxies:
+  - DIRECT
+- name: "\U0001F41F 遵循规则"
+  type: select
+  url: https://www.gstatic.com/generate_204
+  proxies:
+  - "\U0001F41F 漏网之鱼"
+rules:
+- DOMAIN-SUFFIX,wbx2.com,DIRECT
+- DOMAIN-SUFFIX,webex.com,DIRECT
+- DOMAIN-SUFFIX,cisco.com,DIRECT
+- DOMAIN-SUFFIX,ciscospark.com,DIRECT
+- DOMAIN-SUFFIX,webexapis.com,DIRECT
+- DOMAIN-SUFFIX,webexcontent.com,DIRECT
+- DOMAIN-SUFFIX,druva.com,DIRECT
+- DOMAIN-SUFFIX,box.com,DIRECT
+- DOMAIN-SUFFIX,box.net,DIRECT
+- DOMAIN-SUFFIX,boxcloud.com,DIRECT
+- DOMAIN-SUFFIX,slack.com,DIRECT
+- DOMAIN-SUFFIX,unpkg.com,DIRECT
+- DOMAIN-SUFFIX,lrclib.net,DIRECT
+- DOMAIN-SUFFIX,practice.rs,DIRECT
+- "DOMAIN-SUFFIX,cloudflare.com,\U0001F680 手动选择"
+- DOMAIN-SUFFIX,totheglory.im,DIRECT
+- GEOSITE,category-public-tracker,DIRECT
+- "GEOSITE,private,\U0001F3AF 全球直连"
+- "GEOIP,private,\U0001F3AF 全球直连,no-resolve"
+- "RULE-SET,Custom_Direct,\U0001F3AF 全球直连"
+- "RULE-SET,Custom_Proxy,\U0001F680 手动选择"
+- "GEOSITE,google-cn,\U0001F3AF 全球直连"
+- "GEOSITE,category-games@cn,\U0001F3AF 全球直连"
+- "RULE-SET,Steam_CDN,\U0001F3AF 全球直连"
+- "GEOSITE,category-game-platforms-download,\U0001F3AF 全球直连"
+- "GEOSITE,category-public-tracker,\U0001F3AF 全球直连"
+- "GEOSITE,category-communication,\U0001F4AC 即时通讯"
+- "GEOSITE,category-social-media-!cn,\U0001F310 社交媒体"
+- "GEOSITE,openai,\U0001F916 ChatGPT"
+- "GEOSITE,bing,\U0001F916 Copilot"
+- "GEOSITE,category-ai-!cn,\U0001F916 AI服务"
+- "GEOSITE,github,\U0001F680 GitHub"
+- "GEOSITE,category-speedtest,\U0001F680 测速工具"
+- "GEOSITE,steam,\U0001F3AE Steam"
+- "GEOSITE,youtube,\U0001F4F9 YouTube"
+- "GEOSITE,apple-tvplus,\U0001F3A5 AppleTV+"
+- "GEOSITE,apple,\U0001F34E 苹果服务"
+- GEOSITE,microsoft,Ⓜ️ 微软服务
+- "GEOSITE,googlefcm,\U0001F4E2 谷歌FCM"
+- "GEOSITE,google,\U0001F1EC 谷歌服务"
+- "GEOSITE,tiktok,\U0001F3B6 TikTok"
+- "GEOSITE,netflix,\U0001F3A5 Netflix"
+- "GEOSITE,disney,\U0001F3A5 DisneyPlus"
+- "GEOSITE,hbo,\U0001F3A5 HBO"
+- "GEOSITE,primevideo,\U0001F3A5 PrimeVideo"
+- "GEOSITE,category-emby,\U0001F3A5 Emby"
+- "GEOSITE,spotify,\U0001F3BB Spotify"
+- "GEOSITE,bahamut,\U0001F4FA Bahamut"
+- "GEOSITE,category-games,\U0001F3AE 游戏平台"
+- "GEOSITE,category-entertainment,\U0001F30E 国外媒体"
+- "GEOSITE,category-ecommerce,\U0001F6D2 国外电商"
+- "GEOSITE,gfw,\U0001F680 手动选择"
+- "GEOIP,telegram,\U0001F4AC 即时通讯,no-resolve"
+- "GEOIP,twitter,\U0001F310 社交媒体,no-resolve"
+- "GEOIP,facebook,\U0001F310 社交媒体,no-resolve"
+- "GEOIP,google,\U0001F1EC 谷歌服务,no-resolve"
+- "GEOIP,netflix,\U0001F3A5 Netflix,no-resolve"
+- "GEOSITE,cn,\U0001F3AF 全球直连"
+- GEOIP,cn,DIRECT,no-resolve
+- "RULE-SET,Custom_Port_Direct,\U0001F500 非标端口"
+- PROCESS-NAME,aria2c,DIRECT
+- PROCESS-NAME,BitComet,DIRECT
+- PROCESS-NAME,fdm,DIRECT
+- PROCESS-NAME,NetTransport,DIRECT
+- PROCESS-NAME,qbittorrent,DIRECT
+- PROCESS-NAME,Thunder,DIRECT
+- PROCESS-NAME,transmission-daemon,DIRECT
+- PROCESS-NAME,transmission-qt,DIRECT
+- PROCESS-NAME,uTorrent,DIRECT
+- PROCESS-NAME,WebTorrent,DIRECT
+- PROCESS-NAME,Folx,DIRECT
+- PROCESS-NAME,Transmission,DIRECT
+- PROCESS-NAME,WebTorrent Helper,DIRECT
+- PROCESS-NAME,v2ray,DIRECT
+- PROCESS-NAME,ss-local,DIRECT
+- PROCESS-NAME,ssr-local,DIRECT
+- PROCESS-NAME,ss-redir,DIRECT
+- PROCESS-NAME,ssr-redir,DIRECT
+- PROCESS-NAME,ss-server,DIRECT
+- PROCESS-NAME,trojan-go,DIRECT
+- PROCESS-NAME,xray,DIRECT
+- PROCESS-NAME,hysteria,DIRECT
+- PROCESS-NAME,singbox,DIRECT
+- PROCESS-NAME,UUBooster,DIRECT
+- PROCESS-NAME,uugamebooster,DIRECT
+- "DST-PORT,80,\U0001F41F 漏网之鱼"
+- "DST-PORT,443,\U0001F41F 漏网之鱼"
+- MATCH,DIRECT
+rule-providers:
+  Custom_Port_Direct:
+    behavior: classical
+    interval: 10800
+    path: "./rule_provider/Custom_Port_Direct.yaml"
+    type: http
+    url: https://fastly.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@refs/heads/main/rule/Custom_Port_Direct.yaml
+    proxy: DIRECT
+  Custom_Direct:
+    behavior: classical
+    interval: 10800
+    path: "./rule_provider/Custom_Direct_Classical.yaml"
+    type: http
+    url: https://fastly.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@refs/heads/main/rule/Custom_Direct_Classical.yaml
+    proxy: DIRECT
+  Custom_Proxy:
+    behavior: classical
+    interval: 10800
+    path: "./rule_provider/Custom_Proxy_Classical.yaml"
+    type: http
+    url: https://fastly.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@refs/heads/main/rule/Custom_Proxy_Classical.yaml
+    proxy: DIRECT
+  Steam_CDN:
+    behavior: classical
+    interval: 10800
+    path: "./rule_provider/Steam_CDN_Classical.yaml"
+    type: http
+    url: https://fastly.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@refs/heads/main/rule/Steam_CDN_Classical.yaml
+    proxy: DIRECT
+dns:
+  enable: true
+  ipv6: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  listen: 0.0.0.0:7874
+  respect-rules: false
+  fake-ip-filter-mode: blacklist
+  nameserver:
+  - dhcp://"pppoe-wan"
+  - 116.147.149.1
+  - "[fe80::728c:b6ff:fec3:caa0]:53"
+  - 221.6.4.66
+  - 58.240.57.33
+  - "[2408:8000:aaaa::]:53"
+  - "[2408:8888::8]:53"
+  fake-ip-filter:
+  - "*.lan"
+  - "*.localdomain"
+  - "*.example"
+  - "*.invalid"
+  - "*.localhost"
+  - "*.test"
+  - "*.local"
+  - "*.home.arpa"
+  - "*.direct"
+  - cable.auth.com
+  - network-test.debian.org
+  - detectportal.firefox.com
+  - resolver1.opendns.com
+  - global.turn.twilio.com
+  - global.stun.twilio.com
+  - app.yinxiang.com
+  - injections.adguard.org
+  - localhost.*.weixin.qq.com
+  - "*.blzstatic.cn"
+  - "*.cmpassport.com"
+  - id6.me
+  - open.e.189.cn
+  - opencloud.wostore.cn
+  - id.mail.wo.cn
+  - mdn.open.wo.cn
+  - hmrz.wo.cn
+  - nishub1.10010.com
+  - enrichgw.10010.com
+  - "*.wosms.cn"
+  - "*.jegotrip.com.cn"
+  - "*.icitymobile.mobi"
+  - "*.pingan.com.cn"
+  - "*.cmbchina.com"
+  - "*.10099.com.cn"
+  - "*.microdone.cn"
+  - PDC._msDCS.*.*
+  - DC._msDCS.*.*
+  - GC._msDCS.*.*
+  - time.*.com
+  - time.*.gov
+  - time.*.edu.cn
+  - time.*.apple.com
+  - time-ios.apple.com
+  - time1.*.com
+  - time2.*.com
+  - time3.*.com
+  - time4.*.com
+  - time5.*.com
+  - time6.*.com
+  - time7.*.com
+  - ntp.*.com
+  - ntp1.*.com
+  - ntp2.*.com
+  - ntp3.*.com
+  - ntp4.*.com
+  - ntp5.*.com
+  - ntp6.*.com
+  - ntp7.*.com
+  - "*.time.edu.cn"
+  - "*.ntp.org.cn"
+  - "+.pool.ntp.org"
+  - time1.cloud.tencent.com
+  - music.163.com
+  - "*.music.163.com"
+  - "*.126.net"
+  - musicapi.taihe.com
+  - music.taihe.com
+  - songsearch.kugou.com
+  - trackercdn.kugou.com
+  - "*.kuwo.cn"
+  - api-jooxtt.sanook.com
+  - api.joox.com
+  - joox.com
+  - y.qq.com
+  - "*.y.qq.com"
+  - streamoc.music.tc.qq.com
+  - mobileoc.music.tc.qq.com
+  - isure.stream.qqmusic.qq.com
+  - dl.stream.qqmusic.qq.com
+  - aqqmusic.tc.qq.com
+  - amobile.music.tc.qq.com
+  - "*.xiami.com"
+  - "*.music.migu.cn"
+  - music.migu.cn
+  - "+.msftconnecttest.com"
+  - "+.msftncsi.com"
+  - localhost.ptlogin2.qq.com
+  - localhost.sec.qq.com
+  - "+.qq.com"
+  - "+.tencent.com"
+  - "+.srv.nintendo.net"
+  - "*.n.n.srv.nintendo.net"
+  - "+.cdn.nintendo.net"
+  - "+.stun.playstation.net"
+  - xbox.*.*.microsoft.com
+  - "*.*.xboxlive.com"
+  - xbox.*.microsoft.com
+  - xnotify.xboxlive.com
+  - "+.battle.net"
+  - "+.battlenet.com.cn"
+  - "+.wotgame.cn"
+  - "+.wggames.cn"
+  - "+.wowsgame.cn"
+  - "+.wargaming.net"
+  - proxy.golang.org
+  - stun.*.*
+  - stun.*.*.*
+  - "+.stun.*.*"
+  - "+.stun.*.*.*"
+  - "+.stun.*.*.*.*"
+  - "+.stun.*.*.*.*.*"
+  - heartbeat.belkin.com
+  - "*.linksys.com"
+  - "*.linksyssmartwifi.com"
+  - "*.router.asus.com"
+  - mesu.apple.com
+  - swscan.apple.com
+  - swquery.apple.com
+  - swdownload.apple.com
+  - swcdn.apple.com
+  - swdist.apple.com
+  - lens.l.google.com
+  - stun.l.google.com
+  - na.b.g-tun.com
+  - "+.nflxvideo.net"
+  - "*.square-enix.com"
+  - "*.finalfantasyxiv.com"
+  - "*.ffxiv.com"
+  - "*.ff14.sdo.com"
+  - ff.dorado.sdo.com
+  - "*.mcdn.bilivideo.cn"
+  - "+.media.dssott.com"
+  - shark007.net
+  - Mijia Cloud
+  - "+.cmbchina.com"
+  - "+.cmbimg.com"
+  - local.adguard.org
+  - "+.sandai.net"
+  - "+.n0808.com"
+  - "+.uu.163.com"
+  - ps.res.netease.com
+  - "+.pub.3gppnetwork.org"
+  - api.github.com
+  - raw.githubusercontent.com
+  - github.com
+  - "*.ofchar.online"
+redir-port: 7892
+tproxy-port: 7895
+port: 8890
+socks-port: 8891
+mixed-port: 8893
+mode: rule
+allow-lan: true
+external-controller: 0.0.0.0:9090
+secret: '991788'
+bind-address: "*"
+external-ui: "/usr/share/openclash/ui"
+external-ui-name: metacubexd
+external-ui-url: https://codeload.github.com/MetaCubeX/metacubexd/zip/refs/heads/gh-pages
+keep-alive-interval: 15
+keep-alive-idle: 600
+ipv6: true
+geodata-mode: true
+unified-delay: true
+lgbm-auto-update: true
+lgbm-url: https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model-large.bin
+lgbm-update-interval: 72
+profile:
+  smart-collector-size: 1000.0
+  store-selected: true
+  store-fake-ip: true
+geox-url:
+  mmdb: https://testingcf.jsdelivr.net/gh/alecthw/mmdb_china_ip_list@release/Country.mmdb
+  geoip: https://testingcf.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geoip.dat
+  geosite: https://testingcf.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat
+  asn: https://testingcf.jsdelivr.net/gh/xishang0128/geoip@release/GeoLite2-ASN.mmdb
+sniffer:
+  enable: true
+  override-destination: true
+  sniff:
+    QUIC:
+      ports:
+      - 443
+    TLS:
+      ports:
+      - 443
+      - 8443
+    HTTP:
+      ports:
+      - 80
+      - 8080-8880
+      override-destination: true
+  force-domain:
+  - "+.netflix.com"
+  - "+.nflxvideo.net"
+  - "+.amazonaws.com"
+  - "+.media.dssott.com"
+  skip-domain:
+  - Mijia Cloud
+  - dlg.io.mi.com
+  - "+.oray.com"
+  - "+.sunlogin.net"
+  - "+.push.apple.com"
+  parse-pure-ip: true
+  force-dns-mapping: true
+authentication:
+- char:one
+ntp:
+  enable: true
+  server: time.apple.com
+  port: 123
+  interval: 30
+  write-to-system: true
