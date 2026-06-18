@@ -38,14 +38,14 @@ jobs:
       
       - name: Fetch Private Configuration
         env:
-          ROUTER_HOST: "wrt.ofchar.online"
-          ROUTER_PORT: 8622
-          ROUTER_USER: "root"
-          ROUTER_PASS: ${{ secrets.ROUTER_PASSWORD }}
+          ROUTER_HOST: ${{ secrets.ROUTER_HOST }}
+          ROUTER_PORT: ${{ secrets.ROUTER_PORT }}
+          ROUTER_USER: ${{ secrets.ROUTER_USER }}
+          ROUTER_PASS: ${{ secrets.ROUTER_PASS }}
         run: |
           sudo apt-get install -y sshpass expect
           # Create the necessary directories
-          mkdir -p files/etc/config files/etc/openclash/custom files/etc/openclash/rule_provider
+          mkdir -p files/etc/config files/etc/openclash
           
           # Use expect script to run SCP safely with password
           cat << 'EOF' > fetch_configs.exp
@@ -55,25 +55,21 @@ jobs:
           set user $env(ROUTER_USER)
           set pass $env(ROUTER_PASS)
 
-          spawn scp -P $port -o StrictHostKeyChecking=no -r $user@$host:/etc/config/argon $user@$host:/etc/config/aurora $user@$host:/etc/config/bandix $user@$host:/etc/config/cifs $user@$host:/etc/config/dhcp $user@$host:/etc/config/dhcp-opkg $user@$host:/etc/config/dropbear $user@$host:/etc/config/etherwake $user@$host:/etc/config/firewall $user@$host:/etc/config/fstab $user@$host:/etc/config/luci $user@$host:/etc/config/luci-opkg $user@$host:/etc/config/lucky $user@$host:/etc/config/lucky.daji $user@$host:/etc/config/mdadm $user@$host:/etc/config/network $user@$host:/etc/config/nlbwmon $user@$host:/etc/config/openclash $user@$host:/etc/config/openssl $user@$host:/etc/config/p910nd $user@$host:/etc/config/qosmate $user@$host:/etc/config/rpcd $user@$host:/etc/config/samba4 $user@$host:/etc/config/system $user@$host:/etc/config/turboacc $user@$host:/etc/config/uhttpd $user@$host:/etc/config/uhttpd-opkg $user@$host:/etc/config/upnpd $user@$host:/etc/config/upnpd-opkg $user@$host:/etc/config/vlmcsd $user@$host:/etc/config/watchdog $user@$host:/etc/config/wireless files/etc/config/
+          spawn scp -P $port -o StrictHostKeyChecking=no -r $user@$host:/etc/config/argon $user@$host:/etc/config/aurora $user@$host:/etc/config/bandix $user@$host:/etc/config/cifs $user@$host:/etc/config/dhcp $user@$host:/etc/config/dropbear $user@$host:/etc/config/etherwake $user@$host:/etc/config/firewall $user@$host:/etc/config/fstab $user@$host:/etc/config/luci $user@$host:/etc/config/lucky $user@$host:/etc/config/lucky.daji $user@$host:/etc/config/mdadm $user@$host:/etc/config/network $user@$host:/etc/config/nlbwmon $user@$host:/etc/config/openssl $user@$host:/etc/config/p910nd $user@$host:/etc/config/qosmate $user@$host:/etc/config/rpcd $user@$host:/etc/config/samba4 $user@$host:/etc/config/system $user@$host:/etc/config/turboacc $user@$host:/etc/config/uhttpd $user@$host:/etc/config/upnpd $user@$host:/etc/config/vlmcsd $user@$host:/etc/config/watchdog $user@$host:/etc/config/wireless files/etc/config/
           expect "password:"
           send "$pass\r"
           expect eof
 
-          spawn scp -P $port -o StrictHostKeyChecking=no -r $user@$host:/etc/openclash/custom/* files/etc/openclash/custom/
+          spawn scp -P $port -o StrictHostKeyChecking=no -r $user@$host:/etc/openclash/overwrite/* files/etc/openclash/overwrite/
           expect "password:"
           send "$pass\r"
           expect eof
-          
-          spawn ssh -p $port -o StrictHostKeyChecking=no $user@$host "ls /etc/openclash/rule_provider/*chenmozhijin.yaml"
+
+          spawn scp -P $port -o StrictHostKeyChecking=no -r "$user@$host:/etc/openclash/*.yaml" files/etc/openclash/
           expect "password:"
           send "$pass\r"
           expect eof
-          
-          spawn scp -P $port -o StrictHostKeyChecking=no $user@$host:/etc/openclash/rule_provider/*chenmozhijin.yaml files/etc/openclash/rule_provider/
-          expect "password:"
-          send "$pass\r"
-          expect eof
+
           EOF
           expect fetch_configs.exp
           rm fetch_configs.exp
