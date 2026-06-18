@@ -47,32 +47,48 @@ jobs:
           # Create the necessary directories
           mkdir -p files/etc/config files/etc/openclash
           
-          # Use expect script to run SCP safely with password
+          # Use expect script to safely create a tarball on router, download, extract, and clean up
           cat << 'EOF' > fetch_configs.exp
-          set timeout 60
+          set timeout 120
           set host $env(ROUTER_HOST)
           set port $env(ROUTER_PORT)
           set user $env(ROUTER_USER)
           set pass $env(ROUTER_PASS)
 
-          spawn scp -P $port -o StrictHostKeyChecking=no -r $user@$host:/etc/config/argon $user@$host:/etc/config/aurora $user@$host:/etc/config/bandix $user@$host:/etc/config/cifs $user@$host:/etc/config/dhcp $user@$host:/etc/config/dropbear $user@$host:/etc/config/etherwake $user@$host:/etc/config/firewall $user@$host:/etc/config/fstab $user@$host:/etc/config/luci $user@$host:/etc/config/lucky $user@$host:/etc/config/lucky.daji $user@$host:/etc/config/mdadm $user@$host:/etc/config/network $user@$host:/etc/config/nlbwmon $user@$host:/etc/config/openssl $user@$host:/etc/config/p910nd $user@$host:/etc/config/qosmate $user@$host:/etc/config/rpcd $user@$host:/etc/config/samba4 $user@$host:/etc/config/system $user@$host:/etc/config/turboacc $user@$host:/etc/config/uhttpd $user@$host:/etc/config/upnpd $user@$host:/etc/config/vlmcsd $user@$host:/etc/config/watchdog $user@$host:/etc/config/wireless files/etc/config/
-          expect "password:"
-          send "$pass\r"
-          expect eof
+          # 1. Create a tar archive on the router containing the exact files we need
+          spawn ssh -p $port -o StrictHostKeyChecking=no $user@$host "cd /etc && tar -cf /tmp/router_backup.tar config/argon config/aurora config/bandix config/cifs config/dhcp config/dhcp-opkg config/dropbear config/etherwake config/firewall config/fstab config/luci config/luci-opkg config/lucky config/lucky.daji config/mdadm config/network config/nlbwmon config/openclash config/openssl config/p910nd config/qosmate config/rpcd config/samba4 config/system config/turboacc config/uhttpd config/uhttpd-opkg config/upnpd config/upnpd-opkg config/vlmcsd config/watchdog config/wireless openclash/custom openclash/rule_provider/*chenmozhijin.yaml 2>/dev/null"
+          expect {
+            "password:" { send "$pass\r"; exp_continue }
+            eof
+          }
 
-          spawn scp -P $port -o StrictHostKeyChecking=no -r $user@$host:/etc/openclash/overwrite/* files/etc/openclash/overwrite/
-          expect "password:"
-          send "$pass\r"
-          expect eof
+          # 2. SCP the tarball to the local Actions runner
+          spawn scp -P $port -o StrictHostKeyChecking=no $user@$host:/tmp/router_backup.tar ./router_backup.tar
+          expect {
+            "password:" { send "$pass\r"; exp_continue }
+            eof
+          }
 
-          spawn scp -P $port -o StrictHostKeyChecking=no -r "$user@$host:/etc/openclash/*.yaml" files/etc/openclash/
-          expect "password:"
-          send "$pass\r"
-          expect eof
-
+          # 3. Clean up the tarball on the router
+          spawn ssh -p $port -o StrictHostKeyChecking=no $user@$host "rm /tmp/router_backup.tar"
+          expect {
+            "password:" { send "$pass\r"; exp_continue }
+            eof
+          }
           EOF
+          
+          # Run the expect script
           expect fetch_configs.exp
           rm fetch_configs.exp
+          
+          # Extract the tarball locally into the files/etc/ directory
+          if [ -f router_backup.tar ]; then
+            tar -xvf router_backup.tar -C files/etc/
+            rm router_backup.tar
+          else
+            echo "Failed to download configuration backup from router!"
+            exit 1
+          fi
 
       - name: 建立环境
         uses: ./.github/action/prepare
