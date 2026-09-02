@@ -1,0 +1,15 @@
+
+config system
+	option hostname 'OpenWrt-k'
+	option timezone 'CST-8'
+	option zonename 'Asia/Shanghai'
+	option ttylogin '0'
+	option log_size '128'
+	option urandom_seed '0'
+	option log_proto 'udp'
+	option conloglevel '8'
+	option cronloglevel '7'
+
+config timeserver 'ntp'
+	option enabled '0'
+

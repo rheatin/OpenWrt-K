@@ -1,0 +1,5 @@
+0 1 * * * /usr/share/openclash/openclash_geo.sh ipdb #openclash-cron-task
+0 4 * * * /usr/share/openclash/openclash_geo.sh geosite #openclash-cron-task
+0 3 * * * /usr/share/openclash/openclash_geo.sh geoip #openclash-cron-task
+0 2 * * 1 /usr/share/openclash/openclash_geo.sh geoasn #openclash-cron-task
+0 5 * * 1 /usr/share/openclash/openclash_chnroute.sh #openclash-cron-task

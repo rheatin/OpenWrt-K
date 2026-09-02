@@ -847,6 +847,8 @@ rules:
 - PROCESS-NAME,uugamebooster,DIRECT
 - "DST-PORT,80,\U0001F41F 漏网之鱼"
 - "DST-PORT,443,\U0001F41F 漏网之鱼"
+- DST-PORT,80,DIRECT
+- DST-PORT,443,DIRECT
 - MATCH,DIRECT
 rule-providers:
   Custom_Port_Direct:
@@ -1040,6 +1042,21 @@ dns:
   - raw.githubusercontent.com
   - github.com
   - "*.ofchar.online"
+  - "*.libreqos.com"
+  - "*.wbx2.com"
+  - "*.webex.com"
+  - "*.cisco.com"
+  - "*.ciscospark.com"
+  - "*.webexapis.com"
+  - "*.webexcontent.com"
+  - "*.apple.com"
+  - "*.cdn-apple.com"
+  - "*.apple-cloudkit.com"
+  - "*.applecloud.io"
+  - "*.apzones.com"
+  - "*.digitalhub.com"
+  - "*.blackrock.com"
+  use-hosts: true
 redir-port: 7892
 tproxy-port: 7895
 port: 8890
@@ -1100,10 +1117,18 @@ sniffer:
   parse-pure-ip: true
   force-dns-mapping: true
 authentication:
-- char:one
+- char:52Her,soK5+_+
 ntp:
   enable: true
   server: time.apple.com
   port: 123
   interval: 30
   write-to-system: true
+experimental:
+  quic-go-disable-gso: true
+hosts:
+  openwrt.lan: lan
+  immortalwrt.lan: lan
+  lede.lan: lan
+  router.lan: lan
+  OpenWrt-k.lan: lan

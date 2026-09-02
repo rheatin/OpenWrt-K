@@ -37,6 +37,7 @@ jobs:
       - uses: actions/checkout@v5
       
       - name: Fetch Private Configuration
+        if: env.ROUTER_HOST != ''
         env:
           ROUTER_HOST: ${{ secrets.ROUTER_HOST }}
           ROUTER_PORT: ${{ secrets.ROUTER_PORT }}
@@ -45,7 +46,7 @@ jobs:
         run: |
           sudo apt-get install -y sshpass expect
           # Create the necessary directories
-          mkdir -p files/etc/config files/etc/openclash
+          mkdir -p files/etc/config files/etc/openclash files/etc/dropbear files/etc/crontabs
           
           # Use expect script to safely create a tarball on router, download, extract, and clean up
           cat << 'EOF' > fetch_configs.exp
@@ -55,9 +56,8 @@ jobs:
           set user $env(ROUTER_USER)
           set pass $env(ROUTER_PASS)
 
-          # 1. Create a tar archive on the router containing the exact files we need
-          # We copy all target files to a temporary location first to prevent any 'file in use' errors during tar
-          spawn ssh -p $port -o StrictHostKeyChecking=no $user@$host "rm -rf /tmp/etc_temp; mkdir -p /tmp/etc_temp/config /tmp/etc_temp/openclash/rule_provider; cd /etc && cp -rf config/argon config/aurora config/bandix config/cifs config/dhcp config/dropbear config/etherwake config/firewall config/fstab config/luci config/lucky config/lucky.daji config/mdadm config/network config/nlbwmon config/openssl config/p910nd config/qosmate config/rpcd config/samba4 config/system config/turboacc config/uhttpd config/upnpd config/vlmcsd config/watchdog config/wireless /tmp/etc_temp/config/ 2>/dev/null; cp -rf firewall.user /tmp/etc_temp/ 2>/dev/null; cp -rf openclash/overwrite openclash/custom openclash/*.yaml /tmp/etc_temp/openclash/ 2>/dev/null; cp -rf openclash/rule_provider/*chenmozhijin.yaml /tmp/etc_temp/openclash/rule_provider/ 2>/dev/null; cd /tmp/etc_temp && tar -cf /tmp/router_backup.tar config firewall.user openclash 2>/dev/null; rm -rf /tmp/etc_temp"
+          # 1. Create a compressed tar archive on the router containing the exact files we need
+          spawn ssh -p $port -o StrictHostKeyChecking=no $user@$host "rm -rf /tmp/etc_temp; mkdir -p /tmp/etc_temp/config /tmp/etc_temp/openclash /tmp/etc_temp/dropbear /tmp/etc_temp/crontabs; cd /etc && cp -rf config/argon config/aurora config/bandix config/cifs config/cifs-mount config/dhcp config/dropbear config/etherwake config/firewall config/fstab config/luci config/luci-wol config/lucky config/lucky.daji config/mdadm config/network config/nlbwmon config/openssl config/p910nd config/qosmate config/rpcd config/system config/ttyd config/uhttpd config/upnpd config/vlmcsd config/vsftpd config/watchdog config/wireless /tmp/etc_temp/config/ 2>/dev/null; cp -rf firewall.user /tmp/etc_temp/ 2>/dev/null; cp -rf shadow /tmp/etc_temp/ 2>/dev/null; cp -rf crontabs/root /tmp/etc_temp/crontabs/ 2>/dev/null; cp -rf dropbear/authorized_keys /tmp/etc_temp/dropbear/ 2>/dev/null; cp -rf openclash/overwrite openclash/custom openclash/proxy_provider openclash/game_rules openclash/rule_provider openclash/*.yaml openclash/*.ipset /tmp/etc_temp/openclash/ 2>/dev/null; cd /tmp/etc_temp && tar -czf /tmp/router_backup.tar.gz config firewall.user shadow crontabs dropbear openclash 2>/dev/null; rm -rf /tmp/etc_temp"
           expect {
             "password:" { send "$pass\r"; exp_continue }
             eof
@@ -65,8 +65,8 @@ jobs:
           catch {wait} result
           if {[lindex $result 3] != 0} { exit 1 }
 
-          # 2. SCP the tarball to the local Actions runner
-          spawn scp -P $port -o StrictHostKeyChecking=no $user@$host:/tmp/router_backup.tar ./router_backup.tar
+          # 2. SCP the compressed tarball to the local Actions runner
+          spawn scp -C -P $port -o StrictHostKeyChecking=no $user@$host:/tmp/router_backup.tar.gz ./router_backup.tar.gz
           expect {
             "password:" { send "$pass\r"; exp_continue }
             eof
@@ -75,7 +75,7 @@ jobs:
           if {[lindex $result 3] != 0} { exit 1 }
 
           # 3. Clean up the tarball on the router
-          spawn ssh -p $port -o StrictHostKeyChecking=no $user@$host "rm /tmp/router_backup.tar"
+          spawn ssh -p $port -o StrictHostKeyChecking=no $user@$host "rm /tmp/router_backup.tar.gz"
           expect {
             "password:" { send "$pass\r"; exp_continue }
             eof
@@ -87,7 +87,7 @@ jobs:
           for i in {1..3}; do
             echo "Attempt $i to fetch configuration..."
             if expect fetch_configs.exp; then
-              if [ -f router_backup.tar ]; then
+              if [ -f router_backup.tar.gz ]; then
                 SUCCESS=true
                 break
               fi
@@ -96,12 +96,12 @@ jobs:
             sleep 10
           done
           
-          rm fetch_configs.exp
+          rm -f fetch_configs.exp
           
           # Extract the tarball locally into the files/etc/ directory
           if [ "$SUCCESS" = "true" ]; then
-            tar -xvf router_backup.tar -C files/etc/
-            rm router_backup.tar
+            tar -xzvf router_backup.tar.gz -C files/etc/
+            rm router_backup.tar.gz
           else
             echo "Failed to download configuration backup from router after multiple attempts!"
             exit 1
